@@ -1,4 +1,5 @@
-import { type Page, type Locator, expect } from '@playwright/test';
+import { Page, Locator, expect } from '@playwright/test';
+import data from './mock-users.json';
 
 export class LoginPage {
   readonly page: Page;
@@ -17,7 +18,15 @@ export class LoginPage {
     await this.page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
   }
 
-  async login(user: string, pass: string) {
+  public getUserData(scenario: string) {
+    const dataUser = data.find((entry) => entry.scenario === scenario)?.data;
+    if (!dataUser) {
+      throw new Error(`${scenario} not found`);
+    }
+    return dataUser;
+  }
+
+  public async login(user: string, pass: string) {
     await this.usernameInput.click();
     await this.usernameInput.fill(user);
     await this.passwordInput.click();
