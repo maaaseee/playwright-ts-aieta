@@ -1,0 +1,8 @@
+{
+    "validCandidate": {
+        "firstName": "Juan",
+        "lastName": "Pérez",
+        "jobTitle": "Software Engineer",
+        "email": "juan.perez@email.com"
+    }
+}

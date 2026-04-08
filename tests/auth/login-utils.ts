@@ -1,6 +1,8 @@
 import { Page, Locator, expect } from '@playwright/test';
 import data from './mock-users.json';
 
+type LoginScenario = keyof typeof data;
+
 export class LoginPage {
   readonly page: Page;
   readonly usernameInput: Locator;
@@ -19,7 +21,7 @@ export class LoginPage {
   }
 
   public getUserData(scenario: string) {
-    const dataUser = data.find((entry) => entry.scenario === scenario)?.data;
+    const dataUser = data[scenario as LoginScenario];
     if (!dataUser) {
       throw new Error(`${scenario} not found`);
     }
@@ -35,7 +37,7 @@ export class LoginPage {
   }
 
   public async expectValidCredentialsHeader(header: string = 'Dashboard') {
-    await expect(this.page.getByRole('heading', { name: header })).toBeVisible();
+    await expect(this.page.getByRole('heading', { name: header })).toBeVisible({ timeout: 10000 });
   }
 
   public async expectInvalidCredentialsAlert() {

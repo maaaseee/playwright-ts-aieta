@@ -1,26 +1,17 @@
-[
-  {
-    "scenario": "Valid Credentials",
-    "data": {
-        "user": "Admin",
-        "pass": "admin123",
-        "expected": "success"
-    }
+{
+  "validCredentials": {
+    "user": "Admin",
+    "pass": "admin123",
+    "expected": "success"
   },
-  {
-    "scenario": "Invalid Credentials",
-    "data": {
-        "user": "federicoaieta@gmail.com",
-        "pass": "tikitaka123",
-        "expected": "failure"
-    }
+  "invalidCredentials": {
+    "user": "federicoaieta@gmail.com",
+    "pass": "tikitaka123",
+    "expected": "failure"
   },
-  {
-    "scenario": "SQL Injection",
-    "data": {
-        "user": "\" or \"\"=\"",
-        "pass": "\" or \"\"=\"",
-        "expected": "failure"
-    }
+  "sqlInjection": {
+    "user": "\" or \"\"=\"",
+    "pass": "\" or \"\"=\"",
+    "expected": "failure"
   }
-]
+}
