@@ -43,6 +43,7 @@ abstract class RecruitmentPage {
 export class CandidatesPage extends RecruitmentPage {
     public async enterNewForm() {
         await this.page.getByRole('button', { name: ' Add' }).click();
+        await this.page.waitForURL('**/recruitment/addCandidate*');
     }
 
     public async findData(candidateScenario: string): Promise<CandidateData> {
@@ -78,6 +79,7 @@ export class VacanciesPage extends RecruitmentPage {
     public async enterNewForm() {
         await this.page.getByRole('listitem').filter({ hasText: 'Vacancies' }).click();
         await this.page.getByRole('button', { name: ' Add' }).click();
+        this.page.waitForURL('**/recruitment/addJobVacancy*');
     }
 
     public async findData(vacancieScenario: string): Promise<any> {

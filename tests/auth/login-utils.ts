@@ -1,4 +1,4 @@
-import { Page, Locator, expect } from '@playwright/test';
+import test, { Page, Locator, expect } from '@playwright/test';
 import data from './mock-users.json';
 
 type LoginScenario = keyof typeof data;
@@ -43,4 +43,14 @@ export class LoginPage {
   public async expectInvalidCredentialsAlert() {
     await expect(this.page.getByRole('alert')).toContainText('Invalid credentials');
   }
+}
+
+export async function performLogin(page: Page) {
+  await test.step('Given el usuario inicia sesión con credenciales válidas', async () => {
+    const loginPage = new LoginPage(page);
+    const dataUser = loginPage.getUserData('validCredentials');
+    await loginPage.goto();
+    await loginPage.login(dataUser.user, dataUser.pass);
+    await loginPage.expectValidCredentialsHeader();
+  });
 }
