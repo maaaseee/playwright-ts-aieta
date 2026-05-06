@@ -1,0 +1,10 @@
+[
+    { "name": "Admin", "position": 1 },
+    { "name": "PIM", "position": 2 },
+    { "name": "Leave", "position": 3 },
+    { "name": "Time", "position": 4 },
+    { "name": "Recruitment", "position": 5 },
+    { "name": "My Info", "position": 6 },
+    { "name": "Performance", "position": 7 },
+    { "name": "Dashboard", "position": 8 }
+]

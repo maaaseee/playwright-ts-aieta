@@ -1,6 +1,7 @@
 import { test } from '@playwright/test';
 import { performLogin } from '../auth/login-utils';
 import { CandidatesPage, VacanciesPage } from './recruitment-utils';
+import * as allure from "allure-js-commons";
 
 test.describe('Feature: Gestión de Recruitment', () => {
 
@@ -9,6 +10,7 @@ test.describe('Feature: Gestión de Recruitment', () => {
   });
 
   test('Cargar Candidate con datos válidos @critico', async ({ page }) => {
+    await allure.severity("critical");
     const candidatesPage = new CandidatesPage(page);
     await candidatesPage.goto();
 
@@ -21,6 +23,7 @@ test.describe('Feature: Gestión de Recruitment', () => {
   });
 
   test('Cargar Vacancy con datos válidos @critico', async ({ page }) => {
+    await allure.severity("critical");
     const vacanciesPage = new VacanciesPage(page);
     await vacanciesPage.goto();
 

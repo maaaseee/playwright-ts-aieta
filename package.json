@@ -2,7 +2,13 @@
   "name": "clase-2",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:chrome": "playwright test --project=chrome",
+    "report": "playwright show-report",
+    "allure:open": "allure open ./allure-results"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -10,6 +16,6 @@
   "devDependencies": {
     "@playwright/test": "^1.59.1",
     "@types/node": "^25.5.0",
-    "allure-playwright": "^3.7.1"
+    "allure-playwright": "^3.7.2"
   }
 }
