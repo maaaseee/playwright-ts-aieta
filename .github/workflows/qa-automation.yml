@@ -63,7 +63,7 @@ jobs:
         if: always()
         uses: actions/upload-pages-artifact@v3
         with:
-          path: allure-report
+          path: allure-results
 
   deploy:
     name: Publicar Pages
