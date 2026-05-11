@@ -20,7 +20,7 @@ export default defineConfig({
 
   retries: process.env.CI ? 0 : 0,
 
-  workers: process.env.CI ? 1 : undefined,
+  workers: process.env.CI ? 3 : undefined,
 
   use: {
     screenshot: 'only-on-failure',
