@@ -1,0 +1,96 @@
+name: Playwright + Allure Pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_branch:
+        description: "Branch a ejecutar"
+        required: true
+        default: "main"
+        type: string
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  tests:
+    name: Ejecutar pruebas y reporte
+    runs-on: ubuntu-latest
+
+    outputs:
+      tests_failed: ${{ steps.result.outputs.tests_failed }}
+
+    steps:
+      - name: Descargar código
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.target_branch }}
+
+      - name: Preparar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Instalar dependencias
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install
+          fi
+          npx playwright install --with-deps
+          npm install -g allure
+
+      - name: Ejecutar pruebas
+        id: tests
+        continue-on-error: true
+        run: |
+          npm run test
+
+      - name: Guardar resultado
+        id: result
+        if: always()
+        run: |
+          if [ "${{ steps.tests.outcome }}" = "failure" ]; then
+            echo "tests_failed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "tests_failed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Publicar reporte en Pages
+        if: always()
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: allure-report
+
+  deploy:
+    name: Publicar Pages
+    needs: tests
+    if: always()
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+
+    steps:
+      - name: Deploy Pages
+        id: deploy
+        uses: actions/deploy-pages@v4
+
+  result:
+    name: Resultado final
+    needs:
+      - tests
+      - deploy
+    if: always()
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Validar resultado
+        if: ${{ needs.tests.outputs.tests_failed == 'true' }}
+        run: |
+          echo "Una o más pruebas fallaron. El reporte Allure fue publicado en Pages."
+          exit 1
